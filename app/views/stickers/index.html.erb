@@ -1,20 +1,20 @@
 <h1>What Is Up!</h1>
 
-<%= link_to "All Categories", root_path %>
+<%= link_to "All Categories", root_path, remote: true, class: "category_link" %>
 <% Category.all.each do |category| %>
-    <%= link_to category.name, stickers_path(category: category.name) %>
+    <%= link_to category.name, stickers_path(category: category.name), remote: true, class: "category_link" %>
 <% end %>
 <br>
 
 <%= link_to "Add Sticker", new_sticker_path %>
 
+<div class="stickers">
+    <%= render 'stickers' %>
+</div>
 
-<% @stickers.each do |sticker| %>
-    <div>
-        <%= image_tag sticker.image, alt: "#{sticker.name}" %>
-        <p><%= sticker.name %> | <%= sticker.category.name %></p>
-        <%= link_to 'Edit', edit_sticker_path(sticker) %>
-        <%= link_to 'Delete', sticker_path(sticker), method: :delete, data: {confirm: "Are You Sure?"} %>
-    </div>
-<% end %>
+<script>
+    $('.category_link').on('click', function(){
+       $(this).addClass('highlight'); 
+    });
+</script>
 

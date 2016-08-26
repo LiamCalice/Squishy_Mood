@@ -1,4 +1,5 @@
 <%= form_for @sticker, html: { multipart: true } do |f| %>
+    <%= f.collection_select :category_id, Category.all, :id, :name, {prompt: "Choose A Category"} %>
     <%= f.label :name %>
     <%= f.text_field :name %>
     

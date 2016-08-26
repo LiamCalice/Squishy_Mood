@@ -2,7 +2,12 @@ class StickersController < ApplicationController
     before_action :find_sticker, only: [:edit, :update, :destroy]
     
     def index
-        @stickers = Sticker.all.order("created_at DESC")
+        if params[:category].blank?
+            @stickers = Sticker.all.order("created_at DESC")
+        else
+           @category_id = Category.find_by(name: params[:category]).id
+           @stickers = Sticker.where(category_id: @category_id).order("created_at DESC")
+        end
     end
     
     def new
@@ -37,7 +42,7 @@ class StickersController < ApplicationController
     private
     
     def sticker_params
-       params.require(:sticker).permit(:name, :image) 
+       params.require(:sticker).permit(:name, :image, :category_id) 
     end
     
     def find_sticker
